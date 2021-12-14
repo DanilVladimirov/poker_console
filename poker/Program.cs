@@ -46,7 +46,7 @@ namespace poker
         {
             foreach (Card.Suits suit in Enum.GetValues(typeof(Card.Suits)))
             {
-                foreach (int rank in Enumerable.Range(1, 13))
+                foreach (int rank in Enumerable.Range(2, 14))
                 {
                     deck.Add(new Card(suit, rank));
                 }
@@ -103,7 +103,7 @@ namespace poker
         {
             int bot_count = 2;
             Dictionary<String, int> playersMoney = new Dictionary<string, int>();
-            playersMoney.Add("user", 1000);
+            playersMoney.Add("user", startMoney);
 
             foreach (int i in Enumerable.Range(0, bot_count))
             {
@@ -116,8 +116,6 @@ namespace poker
                 bool isSkeepDep = false;
                 int last_dep = 0;
                 Console.WriteLine("####### ROUND " + (round + 1).ToString() + " #######");
-                printPlayersMoney(playersMoney);
-
                 // start deps
 
                 if (isPlayerLose(playersMoney["user"]))
@@ -170,7 +168,7 @@ namespace poker
                     }
                     Console.WriteLine("Your deck is");
                     printDeck(user_deck);
-                    Console.WriteLine("throw card or end? y/n");
+                    Console.WriteLine("throw card or end? n/y");
                     String choose = Console.ReadLine();
                     if (choose == "y")
                     {

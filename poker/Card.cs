@@ -32,6 +32,9 @@ namespace poker
                     this.rank_value = "queen";
                 } else if (rank == 13) {
                     this.rank_value = "king";
+                } else if (rank == 14)
+                {
+                    this.rank_value = "A";
                 }
             } else {
                 this.rank_value = rank.ToString();
