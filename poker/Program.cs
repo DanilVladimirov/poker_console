@@ -15,6 +15,29 @@ namespace poker
             return deck[index];
         }
 
+        public static List<Card> fillDeck(List<Card> deck)
+        {
+            if (deck.Count != 5)
+            {Random rnd = new Random();
+                foreach(int i in Enumerable.Range(1, 4 - deck.Count + 1))
+                {
+                    deck.Add(getRandomCard());
+                }
+            }
+            return deck;
+        }
+
+        public static List<Card> throwCardsBot(List<Card> deck)
+        {
+            Random random = new Random();
+            int delCardsCount = random.Next(0, 4);
+            foreach(int i in Enumerable.Range(1, delCardsCount))
+            {
+                deck.RemoveAt(0);
+            }
+            return deck;
+        }
+
         static void initDeck()
         {
             foreach (Card.Suits suit in Enum.GetValues(typeof(Card.Suits)))
@@ -23,6 +46,14 @@ namespace poker
                 {
                     deck.Add(new Card(suit, rank));
                 }
+            }
+        }
+
+        static void printDeck(List<Card> deck)
+        {
+            foreach (Card card in deck)
+            {
+                Console.WriteLine(card.rank_value);
             }
         }
 
@@ -62,10 +93,35 @@ namespace poker
                 user_deck.Add(getRandomCard());
             }
 
-            //foreach(Card card in user_deck)
-            //{
-            //    Console.WriteLine(card.rank_value);
-            //}
+            Console.WriteLine("Your deck is");
+
+            printDeck(user_deck);
+
+            foreach (int i in Enumerable.Range(1, 5))
+            {
+                if (user_deck.Count() == 0)
+                {
+                    break;
+                }
+                Console.WriteLine("Your deck is");
+                printDeck(user_deck);
+                Console.WriteLine("throw card or end? y/n");
+                String choose = Console.ReadLine();
+                if(choose == "y")
+                {
+                    break;
+                } else {
+                    Console.WriteLine("write index of card");
+                    String input = Console.ReadLine();
+                    user_deck.RemoveAt(Convert.ToInt32(input));
+                }
+               
+            }
+
+            user_deck = fillDeck(user_deck);
+            Console.WriteLine("Now your deck is");
+            printDeck(user_deck);
+
 
             // give cards to bots
 
@@ -79,15 +135,13 @@ namespace poker
                 bot_decks.Add(bot_deck);
             }
 
-            //foreach (int i in Enumerable.Range(0, bot_count))
-            //{
-            //    Console.WriteLine("bot - " + i.ToString());
-            //    foreach (Card card in bot_decks[i])
-            //    {
+            // bots throw random cards
 
-            //        Console.WriteLine(card.rank_value);
-            //    }
-            //}
+            foreach (int i in Enumerable.Range(0, bot_count))
+            {
+                bot_decks[i] = throwCardsBot(bot_decks[i]);
+                bot_decks[i] = fillDeck(bot_decks[i]);
+            }
 
             Dictionary<String, int> stats = new Dictionary<string, int>();
             int user_stat = checkDeck(user_deck);
